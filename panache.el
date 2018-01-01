@@ -9,7 +9,7 @@
 ;;      (setq load-path (cons panache-lisp-dir load-path))
 ;;      (require 'panache)
 ;;      
-;;      (setq panache (expand-file-name "panache" "~/Panache))
+;;      (setq panache (expand-file-name "panache" "~/Panache/bin"))
 ;;
 
 (require 'easymenu)

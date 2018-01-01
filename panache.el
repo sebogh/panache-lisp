@@ -5,14 +5,11 @@
 ;; The following is an example for a setup:
 ;;
 ;;      ;; Panache
-;;      (defvar panache-dir (expand-file-name "~/.panache"))
-;;      (defvar panache-lisp-dir (expand-file-name "lisp" panache-dir))
-;;      (defvar panache-bin-dir (expand-file-name "bin" panache-dir))
-;;      
+;;      (defvar panache-lisp-dir (expand-file-name "~/Panache-lisp"))
 ;;      (setq load-path (cons panache-lisp-dir load-path))
 ;;      (require 'panache)
 ;;      
-;;      (setq panache (expand-file-name "panache.exe" panache-bin-dir))
+;;      (setq panache (expand-file-name "panache" "~/Panache))
 ;;
 
 (require 'easymenu)

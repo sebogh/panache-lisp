@@ -18,9 +18,12 @@
 
 (defvar panache "panache" "Panache executable.")
 (defvar panache-style-dir nil "Where to find the style definitions.")
-(defvar panache-html-fallback-style nil "Fallback style to use for html medium.")
-(defvar panache-draft-html-fallback-style nil "Fallback style to use for draft-html medium.")
-(defvar panache-pdf-fallback-style nil "Fallback style to use for pdf medium.")
+(defvar panache-html-medium "html" "The medium to use for html.")
+(defvar panache-draft-html-medium "drafthtml" "The medium to use for draft-html.")
+(defvar panache-pdf-medium "pdf" "The medium to use for draft-htmlpdf medium.")
+(defvar panache-html-fallback-style nil "Fallback style to use for html.")
+(defvar panache-draft-html-fallback-style nil "Fallback style to use for draft-html.")
+(defvar panache-pdf-fallback-style nil "Fallback style to use for pdf.")
 
 (defvar panache-mode-map
   (let ((map (make-sparse-keymap)))
@@ -58,17 +61,17 @@
 (defun panache-compile-html()
   "Compile a .html"
   (interactive)
-  (panache-compile panache-html-fallback-style ".html")
+  (panache-compile panache-html-medium panache-html-fallback-style ".html")
   )
 (defun panache-compile-draft-html()
   "Compile a draft .html"
   (interactive)
-  (panache-compile panache-draft-html-fallback-style ".html")  
+  (panache-compile panache-draft-html-medium panache-draft-html-fallback-style ".html")  
   )
 (defun panache-compile-pdf()
   "Compile a .pdf"
   (interactive)
-  (panache-compile panache-pdf-fallback-style ".pdf")  
+  (panache-compile panache-pdf-medium panache-pdf-fallback-style ".pdf")  
   )
 
 (define-minor-mode panache-mode
@@ -105,14 +108,17 @@
     (panache-cleanup-command start end)
     (goto-char point)))
 
-(defun panache-compile (fallback-style extension)
+(defun panache-compile (medium fallback-style extension)
 "compile."
 (interactive)
 (let ((command
-       (format "\"%s\" %s %s --input=\"%s\" --output=\"%s%s\" --verbose"
+       (format "\"%s\" %s %s %s --input=\"%s\" --output=\"%s%s\" --verbose"
                panache
 	        (if panache-style-dir
                     (format "--style-dir=\"%s\"" panache-style-dir)
+                  "")
+                (if medium
+                    (format "--medium=\"%s\"" medium)
                   "")
 	        (if fallback-style
                     (format "--style=\"%s\"" fallback-style)

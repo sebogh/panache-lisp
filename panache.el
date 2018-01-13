@@ -20,7 +20,7 @@
 (defvar panache-style-dir nil "Where to find the style definitions.")
 (defvar panache-html-medium "html" "The medium to use for html.")
 (defvar panache-draft-html-medium "drafthtml" "The medium to use for draft-html.")
-(defvar panache-pdf-medium "pdf" "The medium to use for draft-htmlpdf medium.")
+(defvar panache-pdf-medium "pdf" "The medium to use for pdf.")
 (defvar panache-html-fallback-style nil "Fallback style to use for html.")
 (defvar panache-draft-html-fallback-style nil "Fallback style to use for draft-html.")
 (defvar panache-pdf-fallback-style nil "Fallback style to use for pdf.")

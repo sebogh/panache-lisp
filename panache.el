@@ -10,7 +10,14 @@
 ;;      (require 'panache)
 ;;      
 ;;      (setq panache (expand-file-name "panache" "~/Panache/bin"))
-;;
+;;      ;(setq panache-style-dir (expand-file-name (expand-file-name "~/.panache")))
+;;      ;(setq panache-html-medium "html")
+;;      ;(setq panache-draft-html-medium "drafthtml")
+;;      ;(setq panache-pdf-medium "pdf")
+;;      (setq panache-html-fallback-style "tsihtmlde")
+;;      (setq panache-draft-html-fallback-style "tsihtmldraftde")
+;;      (setq panache-pdf-fallback-style "tsipdfde")
+
 
 (require 'easymenu)
 (require 'markdown-mode)

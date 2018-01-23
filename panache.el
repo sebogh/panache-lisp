@@ -18,8 +18,11 @@
 ;;      (setq panache-draft-html-fallback-style "tsihtmldraftde")
 ;;      (setq panache-pdf-fallback-style "tsipdfde")
 ;;      (setq panache-html-view-command "start \"\"") ; uses the default html viewer
-;;      (setq panache-pdf-view-command "start \"\"") ; uses the default pdf viewer
-;;      ;(setq panache-pdf-view-command "\"C:/Program Files/MiKTeX 2.9/miktex/bin/x64/miktex-texworks.exe\"") ; uses texworks
+;;      ;(setq panache-pdf-view-command "start \"\"") ; uses the default pdf viewer
+;;      (setq panache-pdf-view-command "start \"\" \"C:/Program Files/MiKTeX 2.9/miktex/bin/x64/miktex-texworks.exe\"") ; uses texworks
+;;      (setq panache-dir-view-command "start \"\"") ; uses explorer
+
+
 
 (require 'easymenu)
 (require 'markdown-mode)
@@ -35,6 +38,7 @@
 (defvar panache-pdf-fallback-style nil "Fallback style to use for pdf.")
 (defvar panache-html-view-command nil "Command to view html files.")
 (defvar panache-pdf-view-command nil "Command to view pdf files.")
+(defvar panache-dir-view-command nil "Command to view dir.")
 
 (defvar panache-mode-map
   (let ((map (make-sparse-keymap)))
@@ -46,12 +50,13 @@
     (define-key map (kbd "C-c C-c l") nil)
     (define-key map (kbd "C-c C-c w") nil)
     (define-key map (kbd "C-c C-c c") nil)
-    (define-key map (kbd "C-c C-c C-c") 'panache-cleanup)
-    (define-key map (kbd "C-c C-c C-h") 'panache-compile-html)
-    (define-key map (kbd "C-c C-c C-d") 'panache-compile-draft-html)
-    (define-key map (kbd "C-c C-c C-p") 'panache-compile-pdf)
-    (define-key map (kbd "C-c C-v C-h") 'panache-view-html)
-    (define-key map (kbd "C-c C-v C-p") 'panache-view-pdf)    
+    (define-key map (kbd "C-c c c") 'panache-cleanup)
+    (define-key map (kbd "C-c c h") 'panache-compile-html)
+    (define-key map (kbd "C-c c d") 'panache-compile-draft-html)
+    (define-key map (kbd "C-c c p") 'panache-compile-pdf)
+    (define-key map (kbd "C-c v h") 'panache-view-html)
+    (define-key map (kbd "C-c v p") 'panache-view-pdf)
+    (define-key map (kbd "C-c v d") 'panache-view-dir)    
     map)
   "Keymap for Panache minor mode.")
 
@@ -68,7 +73,9 @@
     ["Compile PDF"             panache-compile-pdf]
     "---"
     ["View HTML"               panache-view-html]
-    ["View PDF"                panache-view-pdf]    
+    ["View PDF"                panache-view-pdf]
+    "---"
+    ["View directory"          panache-view-dir]    
     ))
 
 (defun panache-compile-html()
@@ -153,7 +160,7 @@
                  panache-html-view-command
                  (file-name-sans-extension (buffer-file-name))
                  )))
-    (start-process-shell-command command (get-buffer-create "*Panache*") command)
+    (start-process-shell-command command (get-buffer-create "*Panache-Viewer*") command)
     ))
 
 
@@ -165,7 +172,19 @@
                  panache-pdf-view-command
                  (file-name-sans-extension (buffer-file-name))
                  )))
-    (start-process-shell-command command (get-buffer-create "*Panache*") command)
+    (start-process-shell-command command (get-buffer-create "*Panache-Viewer*") command)
     ))
+
+(defun panache-view-dir()
+  "View dir."
+  (interactive)
+  (let ((command
+         (format "%s \"%s\""
+                 panache-dir-view-command
+                 (file-name-directory (buffer-file-name))
+                 )))
+    (start-process-shell-command command (get-buffer-create "*Panache-Viewer*") command)
+    ))
+
 
 (provide 'panache)

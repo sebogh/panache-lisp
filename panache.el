@@ -20,6 +20,7 @@
 ;;      (setq panache-html-view-command "start \"\"") ; uses the default html viewer
 ;;      ;(setq panache-pdf-view-command "start \"\"") ; uses the default pdf viewer
 ;;      (setq panache-pdf-view-command "start \"\" \"C:/Program Files/MiKTeX 2.9/miktex/bin/x64/miktex-texworks.exe\"") ; uses texworks
+;;      (setq panache-tex-view-command "start \"\" \"C:/Program Files/MiKTeX 2.9/miktex/bin/x64/miktex-texworks.exe\"") ; uses texworks
 ;;      (setq panache-dir-view-command "start \"\"") ; uses explorer
 
 
@@ -38,6 +39,7 @@
 (defvar panache-pdf-fallback-style nil "Fallback style to use for pdf.")
 (defvar panache-html-view-command nil "Command to view html files.")
 (defvar panache-pdf-view-command nil "Command to view pdf files.")
+(defvar panache-text-view-command nil "Command to view tex files.")
 (defvar panache-dir-view-command nil "Command to view dir.")
 
 (defvar panache-mode-map
@@ -54,10 +56,12 @@
     (define-key map (kbd "C-c c h") 'panache-compile-html)
     (define-key map (kbd "C-c c d") 'panache-compile-draft-html)
     (define-key map (kbd "C-c c p") 'panache-compile-pdf)
+	(define-key map (kbd "C-c c t") 'panache-compile-tex)
 	(define-key map (kbd "C-c C-c c") 'panache-cleanup)
     (define-key map (kbd "C-c C-c h") 'panache-compile-html)
     (define-key map (kbd "C-c C-c d") 'panache-compile-draft-html)
     (define-key map (kbd "C-c C-c p") 'panache-compile-pdf)
+	(define-key map (kbd "C-c C-c t") 'panache-compile-tex)
     (define-key map (kbd "C-c v h") 'panache-view-html)
     (define-key map (kbd "C-c v p") 'panache-view-pdf)
     (define-key map (kbd "C-c v d") 'panache-view-dir)    
@@ -75,9 +79,11 @@
     ["Compile HTML"            panache-compile-html]
     ["Compile Draft HTML"      panache-compile-draft-html]
     ["Compile PDF"             panache-compile-pdf]
+	["Compile TEX"             panache-compile-tex]
     "---"
     ["View HTML"               panache-view-html]
     ["View PDF"                panache-view-pdf]
+	["View TEX"                panache-view-tex]
     "---"
     ["View directory"          panache-view-dir]    
     ))
@@ -96,6 +102,12 @@
   "Compile a .pdf"
   (interactive)
   (panache-compile panache-pdf-medium panache-pdf-fallback-style ".pdf")  
+  )
+  
+(defun panache-compile-tex()
+  "Compile a .tex"
+  (interactive)
+  (panache-compile panache-pdf-medium panache-pdf-fallback-style ".tex")  
   )
 
 (define-minor-mode panache-mode
@@ -174,6 +186,17 @@
   (let ((command
          (format "%s \"%s.pdf\""
                  panache-pdf-view-command
+                 (file-name-sans-extension (buffer-file-name))
+                 )))
+    (start-process-shell-command command (get-buffer-create "*Panache-Viewer*") command)
+    ))
+	
+(defun panache-view-tex ()
+  "View TEX-output."
+  (interactive)
+  (let ((command
+         (format "%s \"%s.tex\""
+                 panache-tex-view-command
                  (file-name-sans-extension (buffer-file-name))
                  )))
     (start-process-shell-command command (get-buffer-create "*Panache-Viewer*") command)

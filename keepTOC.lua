@@ -14,9 +14,10 @@ function Para(p)
 
       -- substitute it by a raw block
       return {o}
+
    end
 
    -- all other blocks will be left unchanged
-
    return p
+   
 end

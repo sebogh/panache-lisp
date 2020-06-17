@@ -4,11 +4,11 @@
 -- to the original "plain" paragraph.
 
 function Para(p)
-   
+
    local i = pandoc.Para({pandoc.Str("[["), pandoc.Emph({pandoc.Str("TOC")}), pandoc.Str("]]")})
    local o = pandoc.RawBlock("markdown_strict", "[[_TOC_]]")
 
-   -- if the paragraph matches 
+   -- if the paragraph matches
    if pandoc.utils.equals(p, i)
    then
 
@@ -17,6 +17,6 @@ function Para(p)
    end
 
    -- all other blocks will be left unchanged
-   
+
    return p
 end

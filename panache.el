@@ -28,7 +28,6 @@
 
 (require 'easymenu)
 (require 'markdown-mode)
-(require 'panache-tables)
 
 (defvar panache "panache" "Panache executable.")
 (defvar panache-style-dir nil "Where to find the style definitions.")
@@ -77,10 +76,6 @@
   "Menu for Panache minor mode."
   '("Panache"
     ["Cleanup" panache-cleanup]
-    "---"
-    [".csv -> table" panache-tables-csv-to-org-table]
-    ["Toggle table" panache-tables-toggle-table]
-    "---"
     ["Compile HTML"            panache-compile-html]
     ["Compile Draft HTML"      panache-compile-draft-html]
     ["Compile PDF"             panache-compile-pdf]
